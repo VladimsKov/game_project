@@ -1,10 +1,12 @@
 let players = ['x', 'o'];
 let activePlayer = 0;
 let gameField = [];
+let n = 3;//размер поля
+
 function createField() {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < n; i++) {
         gameField[i] = [];
-        for (let j = 0; j < 3; j++) {
+        for (let j = 0; j < n; j++) {
             gameField[i][j] = '';
         }
     }
@@ -13,16 +15,14 @@ function createField() {
 function startGame() {
     createField();
     renderBoard(gameField);
-    let firstPlayer = prompt("Кто начинает? x (№1) или o (№2):");
-    if (firstPlayer == 'o') {
-        activePlayer = 1;
-    } else {
+    let firstPlayer = prompt("Введите номер игрока, который начинает:  '1', если игрок №1 (крестик) или '2', если игрок №2 (нолик)");
+    if (firstPlayer == '1') {
         activePlayer = 0;
-    }
+    } else {activePlayer = 1;}
 }
 function checkwin(rowNumber, colNumber) {
     let findwin1 = true, findwin2 = true;
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < n; i++) {
         //проверка строк:
         if (i !== colNumber && findwin1) {
             if (gameField[rowNumber][i] !== gameField[rowNumber][colNumber]) {
@@ -42,7 +42,7 @@ function checkwin(rowNumber, colNumber) {
     //главная диагональ
     if (rowNumber == colNumber) {
         let findwin = true;
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < n; i++) {
             if (i !== rowNumber) {
                 if (gameField[i][i] !== gameField[rowNumber][colNumber]) {
                     findwin = false;
@@ -53,14 +53,14 @@ function checkwin(rowNumber, colNumber) {
         if (findwin) return true;
     }
     //побочная диагональ
-    if ((rowNumber + colNumber) == 2) {
+    if (+rowNumber + +colNumber == n - 1) {
         let findwin = true;
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < n; i++) {
             if (i !== colNumber) {
-                if (gameField[2 - i][i] !== gameField[rowNumber][colNumber]) {
+                if (gameField[n - 1 - i][i] !== gameField[rowNumber][colNumber]) {
                     findwin = false;
                     break;
-                }                
+                }
             }
         }
         if (findwin) return true;
@@ -81,5 +81,3 @@ function click(rowNamber, colNamber) {
         activePlayer == 0 ? activePlayer = 1 : activePlayer = 0;
     }
 }
-
-
