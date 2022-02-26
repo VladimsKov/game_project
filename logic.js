@@ -40,7 +40,7 @@ function checkwin(rowNumber, colNumber) {
             }
         }
         //проверка главной диагонали:
-        if (rowNumber == colNumber) {
+        if (rowNumber == colNumber && findwin) {
             if (i !== rowNumber) {
                 if (gameField[i][i] !== gameField[rowNumber][colNumber]) {
                     findwin = false;
@@ -50,7 +50,7 @@ function checkwin(rowNumber, colNumber) {
             findwin = false;
         }        
         //проверка побочной диагонали
-        if (+rowNumber + +colNumber == n - 1) {
+        if (+rowNumber + +colNumber == n - 1 && findwin3) {
             if (i !== colNumber) {
                 if (gameField[n - 1 - i][i] !== gameField[rowNumber][colNumber]) {
                     findwin3 = false;
