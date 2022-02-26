@@ -1,9 +1,10 @@
 let players = ['x', 'o'];
 let activePlayer = 0;
-let gameField = [];
-let n = 3;//размер поля
+let gameField;
+let n;//размер поля
 
 function createField() {
+    gameField = [];
     for (let i = 0; i < n; i++) {
         gameField[i] = [];
         for (let j = 0; j < n; j++) {
@@ -13,15 +14,18 @@ function createField() {
 }
 
 function startGame() {
+    n = Number(prompt("Введите размер поля", 3));
     createField();
     renderBoard(gameField);
     let firstPlayer = prompt("Введите номер игрока, который начинает:  '1', если игрок №1 (крестик) или '2', если игрок №2 (нолик)");
     if (firstPlayer == '1') {
         activePlayer = 0;
-    } else {activePlayer = 1;}
+    } else {activePlayer = 1;}   
 }
+
 function checkwin(rowNumber, colNumber) {
-    let findwin1 = true, findwin2 = true;
+    let findwin1 = true, findwin2 = true,
+    findwin = true, findwin3 = true;
     for (let i = 0; i < n; i++) {
         //проверка строк:
         if (i !== colNumber && findwin1) {
@@ -35,36 +39,29 @@ function checkwin(rowNumber, colNumber) {
                 findwin2 = false;
             }
         }
-        if (!findwin1 && !findwin2) break;
-    }
-    if (findwin1 || findwin2) return true;
-    //проверка диагоналей:
-    //главная диагональ
-    if (rowNumber == colNumber) {
-        let findwin = true;
-        for (let i = 0; i < n; i++) {
+        //проверка главной диагонали:
+        if (rowNumber == colNumber) {
             if (i !== rowNumber) {
                 if (gameField[i][i] !== gameField[rowNumber][colNumber]) {
                     findwin = false;
-                    break;
-                }
+                } 
             }
-        }
-        if (findwin) return true;
-    }
-    //побочная диагональ
-    if (+rowNumber + +colNumber == n - 1) {
-        let findwin = true;
-        for (let i = 0; i < n; i++) {
+        } else {
+            findwin = false;
+        }        
+        //проверка побочной диагонали
+        if (+rowNumber + +colNumber == n - 1) {
             if (i !== colNumber) {
                 if (gameField[n - 1 - i][i] !== gameField[rowNumber][colNumber]) {
-                    findwin = false;
-                    break;
-                }
+                    findwin3 = false;
+                } 
             }
-        }
-        if (findwin) return true;
+        } else {
+            findwin3 = false;
+        }        
+        if (!findwin1 && !findwin2 && !findwin && !findwin3) break;
     }
+    if (findwin1 || findwin2 || findwin || findwin3) return true;  
 }
 
 function click(rowNamber, colNamber) {
